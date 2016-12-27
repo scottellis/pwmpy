@@ -1,16 +1,16 @@
 ## pwm.py
 
-A simple Python class to work with the RPi Linux PWM kernel driver.
+A simple Python class to work with the Linux PWM kernel driver.
 
-Written for the Raspberry Pi and ther hardware pwm timers, but should work with other SOCs.
+Written for the Raspberry Pi and the hardware pwm timers, but should work with other SOCs.
 
-Requires that the kernel drivers are loaded appropriately.
+Requires that a PWM kernel driver is loaded appropriately which on the RPi normally means a dts overlay.
 
-For the RPi this normally means a dts overlay.
+Instructions for building and loading an appropriate dts for the RPi can be found [here][rpi-hardware-pwm].
 
-Instructions for buidling and loading a dts that will work can be found [here][jumpnowtek-rpi-pwm].
+I'm using a custom [Yocto built O/S][rpi-yocto] where pwm overlays are installed by default.
 
-Here is a simple example using the PWM class interactively with some description
+Here is a simple interactive example using the PWM class
 
     root@rpi3:~# python3
     Python 3.5.2 (default, Nov 22 2016, 06:54:46)
@@ -29,7 +29,7 @@ Call *export()* before first use
 
     >>> pwm0.export()
 
-Setup a 1 ms period, 25% duty cycle pulse (period and duty_cycle units are nanoseconds)
+Setup a 1 ms period, 25% duty cycle pulse (period and duty\_cycle units are nanoseconds)
 
     >>> pwm0.period = 1000000
     >>> pwm0.duty_cycle = 250000
@@ -51,7 +51,7 @@ Create an instance for the *PWM1* timer
     >>> pwm1 = PWM(1)
     >>> pwm1.export()
 
-Setup a servo-like pulse with a 50 ms period and 2 ms duty_cycle
+Setup a servo-like pulse with a 50 ms period and 2 ms duty\_cycle
 
     >>> pwm1.period = 50000000
     >>> pwm1.duty_cycle = 2000000
@@ -80,5 +80,5 @@ Unexport both timers
     >>> quit()
  
 
-[jumpnowtek-rpi-pwm]: http://www.jumpnowtek.com/rpi/Using-the-Raspberry-Pi-Hardware-PWM-timers.html
-  
+[rpi-hardware-pwm]: http://www.jumpnowtek.com/rpi/Using-the-Raspberry-Pi-Hardware-PWM-timers.html
+[rpi-yocto]: http://www.jumpnowtek.com/rpi/Raspberry-Pi-Systems-with-Yocto.html
