@@ -4,10 +4,11 @@ import os
 
 class PWM(object):
 
-    def __init__(self, ch=0):
-        self._ch = ch
-        self.base = '/sys/class/pwm/pwmchip0'
-        self.path = self.base + '/pwm{:d}'.format(self._ch)
+    def __init__(self, channel=0, chip=0):
+        self._channel = channel
+        self._chip = chip
+        self.base = '/sys/class/pwm/pwmchip{:d}'.format(self._chip)
+        self.path = self.base + '/pwm{:d}'.format(self._channel)
 
         if not os.path.isdir(self.base):
             raise FileNotFoundError('Directory not found: ' + self.base)
@@ -15,16 +16,20 @@ class PWM(object):
     def export(self):
         if not os.path.isdir(self.path):
             with open(self.base + '/export', 'w') as f:
-                f.write('{:d}'.format(self._ch))
+                f.write('{:d}'.format(self._channel))
 
     def unexport(self):
         if os.path.isdir(self.path):
             with open(self.base + '/unexport', 'w') as f:
-                f.write('{:d}'.format(self._ch))
+                f.write('{:d}'.format(self._channel))
 
     @property
     def channel(self):
-        return self._ch
+        return self._channel
+
+    @property
+    def chip(self):
+        return self._chip
 
     @property
     def period(self):
