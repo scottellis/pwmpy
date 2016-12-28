@@ -1,7 +1,11 @@
-import os
+"""Linux PWM driver sysfs interface"""
 
 __author__ = 'Scott Ellis'
 __version__ = '1.0'
+__license__ = 'New BSD'
+__copyright__ = 'Copyright (c) 2016 Scott Ellis'
+
+import os
 
 class PWM(object):
     """
