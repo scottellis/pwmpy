@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# A class to work with the Linux PWM driver sysfs interface
 
 import os
 
@@ -14,15 +14,13 @@ class PWM(object):
 
     def export(self):
         if not os.path.isdir(self.path):
-            f = open('/sys/class/pwm/pwmchip0/export', 'w')
-            f.write('{:d}'.format(self._ch))
-            f.close()
+            with open(self.base + '/export', 'w') as f:
+                f.write('{:d}'.format(self._ch))
 
     def unexport(self):
         if os.path.isdir(self.path):
-            f = open('/sys/class/pwm/pwmchip0/unexport', 'w')
-            f.write('{:d}'.format(self._ch))
-            f.close()
+            with open(self.base + '/unexport', 'w') as f:
+                f.write('{:d}'.format(self._ch))
 
     @property
     def channel(self):
@@ -30,43 +28,40 @@ class PWM(object):
 
     @property
     def period(self):
-        f = open(self.path + '/period', 'r')
-        value = f.readline().strip()
-        f.close()
+        with open(self.path + '/period', 'r') as f:
+            value = f.readline().strip()
+
         return int(value)
 
     @period.setter
     def period(self, value):
-        f = open(self.path + '/period', 'w')
-        f.write('{:d}'.format(value))
-        f.close()
+        with open(self.path + '/period', 'w') as f:
+            f.write('{:d}'.format(value))
                 
     @property
     def duty_cycle(self):
-        f = open(self.path + '/duty_cycle', 'r')
-        value = f.readline().strip()
-        f.close()
+        with open(self.path + '/duty_cycle', 'r') as f:
+            value = f.readline().strip()
+
         return int(value)
 
     @duty_cycle.setter
     def duty_cycle(self, value):
-        f = open(self.path + '/duty_cycle', 'w')
-        f.write('{:d}'.format(value))
-        f.close()
+        with open(self.path + '/duty_cycle', 'w') as f:
+            f.write('{:d}'.format(value))
  
     @property
     def enable(self):
-        f = open(self.path + '/enable', 'r')
-        value = f.readline().strip()
-        f.close()
+        with open(self.path + '/enable', 'r') as f:
+            value = f.readline().strip()
+
         return True if value == '1' else False
 
     @enable.setter
     def enable(self, value):
-        f = open(self.path + '/enable', 'w')
-        if value:
-            f.write('1')
-        else:
-            f.write('0')
-        f.close()
+        with open(self.path + '/enable', 'w') as f:
+            if value:
+                f.write('1')
+            else:
+                f.write('0')
 
