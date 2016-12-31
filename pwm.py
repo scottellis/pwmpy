@@ -1,11 +1,11 @@
 """Linux PWM driver sysfs interface"""
 
+import os
+
 __author__ = 'Scott Ellis'
 __version__ = '1.0'
 __license__ = 'New BSD'
 __copyright__ = 'Copyright (c) 2016 Scott Ellis'
-
-import os
 
 class PWM(object):
     """
@@ -23,7 +23,7 @@ class PWM(object):
 
         The channel and chip are determined by the kernel driver.
 
-        For example the two PWM timers from the RPi kernel driver 
+        For example the two PWM timers from the RPi kernel driver
         show up like this
 
             /sys/class/pwm/pwmchip0/pwm0
@@ -85,7 +85,7 @@ class PWM(object):
     def period(self, value):
         with open(self.path + '/period', 'w') as f:
             f.write('{:d}'.format(value))
-                
+
     @property
     def duty_cycle(self):
         """The duty_cycle (the ON pulse) of the timer in nanoseconds."""
@@ -98,7 +98,7 @@ class PWM(object):
     def duty_cycle(self, value):
         with open(self.path + '/duty_cycle', 'w') as f:
             f.write('{:d}'.format(value))
- 
+
     @property
     def enable(self):
         """Enable or disable the timer, boolean"""
