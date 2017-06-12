@@ -115,3 +115,19 @@ class PWM(object):
             else:
                 f.write('0')
 
+    @property
+    def inversed(self):
+        """normal polarity or inversed, boolean"""
+        with open(self.path + '/polarity', 'r') as f:
+            value = f.readline().strip()
+
+        return True if value == 'inversed' else False
+
+    @inversed.setter
+    def inversed(self, value):
+        with open(self.path + '/polarity', 'w') as f:
+            if value:
+                f.write('inversed')
+            else:
+                f.write('normal')
+
