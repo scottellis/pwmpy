@@ -43,6 +43,17 @@ class PWM(object):
         if not os.path.isdir(self.base):
             raise FileNotFoundError('Directory not found: ' + self.base)
 
+    # enable class as a context manager
+    def __enter__(self):
+        self.export()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.enable = False
+        self.inversed = False
+        self.unexport()
+        return
+
     def export(self):
         """Export the channel for use through the sysfs interface.
         Required before first use.
